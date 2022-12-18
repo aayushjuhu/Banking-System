@@ -1,3 +1,6 @@
+<?php 
+include 'links.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,24 +17,32 @@
 </head>
 <body style="background-color: rgb(34, 31, 31);">
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+<!-- navbar -->
+<nav class="navbar fixed-top navbar-expand-sm bg-dark navbar-dark">
   
   <a class="navbar-brand" href="index.php"><strong>TSF BANK</strong></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">   <!--autocollapse for small screen devices-->
+    <span class="navbar-toggler-icon"></span>
+  </button>
   
-  
-  <ul class="navbar-nav ">
+  <div class="collapse navbar-collapse" id="nav">
+    <ul class="navbar-nav">
     
-    <li class="nav-item">
-      <a class="nav-link" href="transaction.php"><i class="fa fa-users"></i> All Customer</a>
-      
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="moneytransfer.php"><i class="fa fa-money" aria-hidden="true"></i> All Transactions</a>
-    </li>
+      <li class="nav-item">
+        <a class="nav-link" href="transaction.php"><i class="fa fa-users"></i> All Customer</a>
+        
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="moneytransfer.php"><i class="fa fa-money" aria-hidden="true"></i> All Transactions</a>
+      </li>
   </ul>
+  </div>
 </nav>
-<h1 class="text-center text-light">All Customers</h1>
+<br><br><br><br>
+<h1 class="text-center text-light"><u>All Customers</u></h1>
 <br>
+
+<!-- alerts -->
 <?php if (isset($_GET['success'])) { ?> 
 <div class="alert alert-success alert-dismissible fade show">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -58,9 +69,12 @@
     </thead>
     <tbody>
   <?php 
-  include "conn.php";
-  $sql="Select Srno,Name,Email,Account_No,Phone_No,Balance from customers";
-  $result = mysqli_query($conn,$sql);
+  include "conn.php"; //importing the connection file
+  
+  $sql="Select Srno,Name,Email,Account_No,Phone_No,Balance from customers"; //fetching data from database
+  $result = mysqli_query($conn,$sql); //executing the query and storing the result
+
+  //dynamically adding the rows from the database into the table
   if (mysqli_num_rows($result) > 0) {
     
     while($row = mysqli_fetch_assoc($result)) {
@@ -74,11 +88,12 @@
       <td><?php echo $row['Email'];?></td>
       <td><?php echo $row['Account_No'];?></td>
       <td><?php echo $row['Phone_No'];?></td>
-      <td><?php echo $row['Balance'];?></td>
+      <td><?php echo "₹".$row['Balance'];?></td>
 
       <td><button type="button" class="btn btn-success btn-xs"  data-toggle="modal" data-target="#myModal<?php echo $row['Srno'];?>">View</button></td>
     </tr>
-  
+
+  <!-- modal box for displaying data in expanded format -->
     <div id="myModal<?php echo $row['Srno'];?>" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -88,9 +103,10 @@
             <p>Account No.: <?php echo $row['Account_No'];?></p>
             <p>Email ID: <?php echo $row['Email'];?></p>
             <p>Phone No.: <?php echo $row['Phone_No'];?></p>
-            <p>Balance: <?php echo $row['Balance'];?></p>
+            <p>Balance: <?php echo "₹".$row['Balance'];?></p>
             
-            <a href="transfer.php"><button class="btn btn-success btn-sm">Transfer</button></a>
+            
+            <?php echo '<a href="transfer.php?id='.$row['Srno'].'">';?><button class="btn btn-success btn-sm">Transfer</button></a>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -108,6 +124,7 @@
   </table>
 
 <br><br><br><br>
-<footer style="color:white; text-align: center;">&#169; 2022 Created by Aayush Juhukar</footer><footer style="color:white;text-align: center;">as a part of TSF GRIP</footer>
+
+<footer style="color:white; text-align: center;">&#169; 2022,TSF BANK<br>Created by Aayush Juhukar <br>as a part of TSF GRIP</footer>
 </body>
 </html>

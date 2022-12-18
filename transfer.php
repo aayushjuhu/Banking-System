@@ -1,47 +1,60 @@
+<?php
+include 'conn.php';
+include 'links.php';
+$id=$_GET['id'];
+$sql="SELECT Account_No from customers where Srno=$id";
+$res=mysqli_query($conn,$sql);
+if(mysqli_num_rows($res)>0){
+  while($row=mysqli_fetch_assoc($res)){
+    $acc=$row['Account_No'];
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <title>TSF Bank-Transfer</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  <link rel="icon" type="image/x-icon" href="image-removebg-preview (7).png">
 </head>
 <body style="background-color: rgb(34, 31, 31);">
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+<!-- navbar -->
+<nav class="navbar fixed-top navbar-expand-sm bg-dark navbar-dark">
   
   <a class="navbar-brand" href="index.php"><strong>TSF BANK</strong></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
   
-  
-  <ul class="navbar-nav ">
+  <div class="collapse navbar-collapse" id="nav">
+    <ul class="navbar-nav">
     
-    <li class="nav-item">
-      <a class="nav-link" href="transaction.php"><i class="fa fa-users"></i> All Customer</a>
-      
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="moneytransfer.php"><i class="fa fa-money" aria-hidden="true"></i> All Transactions</a>
-    </li>
+      <li class="nav-item">
+        <a class="nav-link" href="transaction.php"><i class="fa fa-users"></i> All Customer</a>
+        
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="moneytransfer.php"><i class="fa fa-money" aria-hidden="true"></i> All Transactions</a>
+      </li>
   </ul>
+  </div>
 </nav>
-<br>
-<h1 class="text-center text-light">Transfer Funds</h1>
 <br><br><br><br>
-<form class="text-center" style="border: 2px solid white;border-radius: 10px;" method="post" action="trans.php"> 
+<h1 class="text-center text-light"><u>Transfer Funds</u></h1>
+<br><br>
+
+<!-- For the customer to fill the details (Sender's account no.,Receiver's account no.,Amount) -->
+<form class="text-center border border-light rounded-pill"  method="post" action="trans.php"> 
     <br>
-    <div class="form-horizontal">
+    <div class="form-horizontal ">
         <label for="Sender's account no." style="color: aliceblue;">Sender's account no.<sup><span style="color:red">*</sup></span></label>
-        <input class="text-center" type="number" name="sac" placeholder="Enter account number" style="width: 20vw;" rows="1" required>
-    <br><br>
+        <input class="text-center" type="number"  readonly name="sac" placeholder="Enter account number" style="width: 20vw;" rows="1" required value=<?php echo $acc;?>>
+    </div>
+      <br><br>
     <div class="form-horizontal">
         <label for="Receiver's account no." style="color: aliceblue;">Receiver's account no.<sup><span style="color:red">*</sup></span></label>
-        <input class="text-center" type="number" name="rac" placeholder="Enter account number" rows="1" required style="width: 20vw;">
+        <input class="text-center"  type="number" name="rac" placeholder="Enter account number" rows="1" required style="width: 20vw;">
     </div>
     <br><br>
     <div class="form-horizontal">
@@ -57,6 +70,6 @@
     
 </form>
 <br><br><br><br>
-<footer style="color:white; text-align: center;">&#169; 2022 Created by Aayush Juhukar</footer><footer style="color:white;text-align: center;">as a part of TSF GRIP</footer>
+<footer style="color:white; text-align: center;">&#169; 2022,TSF BANK<br>Created by Aayush Juhukar <br>as a part of TSF GRIP</footer>
 </body>
 </html>
